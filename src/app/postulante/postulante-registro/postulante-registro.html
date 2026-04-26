@@ -1,0 +1,91 @@
+<section class="registro-container" aria-labelledby="registro-title">
+    <header>
+        <h1 id="registro-title">Registro de postulante</h1>
+        <p class="subtitle">Crea tu cuenta sin costo para acceder a oportunidades laborales.</p>
+    </header>
+
+    @if (estadoVerificacion() && mensajeVerificacion()) {
+        <div
+            class="alert"
+            [class.alert-success]="estadoVerificacion() === 'ok'"
+            [class.alert-error]="estadoVerificacion() === 'error'"
+            role="status"
+            aria-live="polite"
+        >
+            {{ mensajeVerificacion() }}
+        </div>
+    }
+
+    @if (mensajeError()) {
+        <div class="alert alert-error" role="alert" aria-live="assertive">{{ mensajeError() }}</div>
+    }
+
+    @if (mensajeExito()) {
+        <div class="alert alert-success" role="status" aria-live="polite">{{ mensajeExito() }}</div>
+    }
+
+    <form class="registro-form" [formGroup]="formulario" (ngSubmit)="registrar()" novalidate>
+        <div class="field">
+            <label for="nombre">Nombre completo *</label>
+            <input id="nombre" type="text" formControlName="nombre" autocomplete="name" />
+            @if (mostrarErrores() && formulario.controls.nombre.hasError('required')) {
+                <small class="error">El nombre es obligatorio.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.nombre.hasError('minlength')) {
+                <small class="error">El nombre debe tener al menos 2 caracteres.</small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="correo">Correo electrónico *</label>
+            <input id="correo" type="email" formControlName="correo" autocomplete="email" />
+            @if (mostrarErrores() && formulario.controls.correo.hasError('required')) {
+                <small class="error">El correo es obligatorio.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.correo.hasError('email')) {
+                <small class="error">El formato del correo no es válido.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.correo.hasError('correoEnUso')) {
+                <small class="error">Este correo ya está en uso. Ingresa uno diferente.</small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="contrasena">Contraseña *</label>
+            <input id="contrasena" type="password" formControlName="contrasena" autocomplete="new-password" />
+            @if (mostrarErrores() && formulario.controls.contrasena.hasError('required')) {
+                <small class="error">La contraseña es obligatoria.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.contrasena.hasError('minlength')) {
+                <small class="error">La contraseña es demasiado débil: mínimo 8 caracteres.</small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="distrito">Distrito *</label>
+            <input id="distrito" type="text" formControlName="distrito" autocomplete="address-level2" />
+            @if (mostrarErrores() && formulario.controls.distrito.hasError('required')) {
+                <small class="error">El distrito es obligatorio.</small>
+            }
+        </div>
+
+        <div class="terms">
+            <input id="aceptaTerminos" type="checkbox" formControlName="aceptaTerminos" />
+            <label for="aceptaTerminos">Acepto los términos y condiciones *</label>
+        </div>
+        @if (mostrarErrores() && formulario.controls.aceptaTerminos.hasError('required')) {
+            <small class="error">Debes aceptar los términos para continuar.</small>
+        }
+
+        <button type="submit" [disabled]="formulario.invalid">Confirmar registro</button>
+    </form>
+
+    @if (enlaceVerificacion()) {
+        <p class="verification-help">
+            Enlace de verificación (demo):
+            <a [routerLink]="[]" [queryParams]="{ token: tokenVerificacion() }">
+                Activar cuenta
+            </a>
+        </p>
+    }
+</section>

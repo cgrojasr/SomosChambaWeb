@@ -1,0 +1,105 @@
+.registro-container {
+	max-width: 680px;
+	margin: 2rem auto;
+	padding: 1.5rem;
+	border-radius: 16px;
+	border: 1px solid #d9dee5;
+	background: linear-gradient(140deg, #ffffff 0%, #f6fbff 100%);
+}
+
+h1 {
+	margin: 0;
+	color: #0f172a;
+}
+
+.subtitle {
+	margin: 0.5rem 0 1.5rem;
+	color: #475569;
+}
+
+.registro-form {
+	display: grid;
+	gap: 1rem;
+}
+
+.field {
+	display: grid;
+	gap: 0.35rem;
+}
+
+label {
+	font-weight: 600;
+	color: #1e293b;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+	border: 1px solid #b8c3d1;
+	border-radius: 10px;
+	padding: 0.7rem 0.8rem;
+	font-size: 0.95rem;
+}
+
+input:focus {
+	outline: 3px solid #99d4ff;
+	border-color: #2563eb;
+}
+
+.terms {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.terms label {
+	font-weight: 500;
+}
+
+button {
+	border: none;
+	border-radius: 10px;
+	padding: 0.85rem 1rem;
+	background: #0369a1;
+	color: #ffffff;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.alert {
+	padding: 0.75rem 0.9rem;
+	border-radius: 10px;
+	margin-bottom: 1rem;
+}
+
+.alert-success {
+	background: #ecfdf3;
+	border: 1px solid #8ad9aa;
+	color: #166534;
+}
+
+.alert-error {
+	background: #fff1f2;
+	border: 1px solid #fca5a5;
+	color: #b91c1c;
+}
+
+.error {
+	color: #dc2626;
+	font-size: 0.85rem;
+}
+
+.verification-help {
+	margin-top: 1rem;
+	color: #0f172a;
+}
+
+.verification-help a {
+	color: #1d4ed8;
+	font-weight: 600;
+}
