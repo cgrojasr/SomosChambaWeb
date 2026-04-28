@@ -1,1 +1,6 @@
-<p>empleador-publicacion-empleo works!</p>
+@if (publicacionId() !== null) {
+	<h2>Detalle de Publicacion</h2>
+	<p>Id recibido por URL: {{ publicacionId() }}</p>
+} @else {
+	<p>No se recibio un id valido en la URL.</p>
+}
