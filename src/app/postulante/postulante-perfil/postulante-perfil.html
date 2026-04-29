@@ -1,1 +1,130 @@
-<p>postulante-perfil works!</p>
+<section class="perfil-container" aria-labelledby="perfil-title">
+	<header>
+		<h1 id="perfil-title">Perfil de postulante</h1>
+		<p class="subtitle">Completa tu información para aumentar tus posibilidades de empleo.</p>
+	</header>
+
+	@if (mensajeError()) {
+		<div class="alert alert-error" role="alert" aria-live="assertive">{{ mensajeError() }}</div>
+	}
+
+	@if (mensajeExito()) {
+		<div class="alert alert-success" role="status" aria-live="polite">{{ mensajeExito() }}</div>
+	}
+
+	<form class="perfil-form" [formGroup]="formulario" (ngSubmit)="guardarPerfil()" novalidate>
+		<div class="field">
+			<label for="fullName">Nombre completo *</label>
+			<input id="fullName" type="text" formControlName="fullName" autocomplete="name" />
+			@if (mostrarErrores() && formulario.controls.fullName.hasError('required')) {
+				<small class="error">El nombre completo es obligatorio.</small>
+			}
+			@if (mostrarErrores() && formulario.controls.fullName.hasError('minlength')) {
+				<small class="error">El nombre debe tener al menos 3 caracteres.</small>
+			}
+		</div>
+
+		<div class="field">
+			<label for="district">Distrito *</label>
+			<select id="district" formControlName="district">
+				<option value="">Selecciona un distrito</option>
+				@for (distrito of distritosPermitidos; track distrito) {
+					<option [value]="distrito">{{ distrito }}</option>
+				}
+			</select>
+			@if (mostrarErrores() && formulario.controls.district.hasError('required')) {
+				<small class="error">El distrito es obligatorio.</small>
+			}
+			@if (mostrarErrores() && formulario.controls.district.hasError('distritoInvalido')) {
+				<small class="error">El distrito seleccionado no es válido.</small>
+			}
+		</div>
+
+		<div class="field">
+			<label for="birthDate">Fecha de nacimiento (DD/MM/AAAA) *</label>
+			<input
+				id="birthDate"
+				type="text"
+				formControlName="birthDate"
+				placeholder="31/12/1998"
+				inputmode="numeric"
+			/>
+			@if (mostrarErrores() && formulario.controls.birthDate.hasError('required')) {
+				<small class="error">La fecha de nacimiento es obligatoria.</small>
+			}
+			@if (mostrarErrores() && formulario.controls.birthDate.hasError('fechaInvalida')) {
+				<small class="error">La fecha no es válida. Usa DD/MM/AAAA.</small>
+			}
+		</div>
+
+		<div class="field">
+			<label for="experience">Experiencia laboral</label>
+			<textarea
+				id="experience"
+				rows="4"
+				formControlName="experience"
+				placeholder="Describe tu experiencia y logros principales"
+			></textarea>
+		</div>
+
+		<fieldset class="skills" aria-describedby="skills-help">
+			<legend>Habilidades básicas *</legend>
+			<p id="skills-help">Selecciona al menos una habilidad.</p>
+			<div class="skills-grid">
+				@for (habilidad of habilidadesDisponibles; track habilidad) {
+					<label class="skill-item">
+						<input
+							type="checkbox"
+							[checked]="estaHabilidadSeleccionada(habilidad)"
+							(change)="alternarHabilidad(habilidad)"
+						/>
+						<span>{{ habilidad }}</span>
+					</label>
+				}
+			</div>
+			@if (mostrarErrores() && habilidadesSeleccionadas().length === 0) {
+				<small class="error">Debes registrar al menos una habilidad básica.</small>
+			}
+		</fieldset>
+
+		<div class="field">
+			<label for="documentos">Documentos opcionales (PDF, JPG, PNG - máximo 5MB)</label>
+			<input
+				id="documentos"
+				type="file"
+				accept=".pdf,.jpg,.jpeg,.png"
+				(change)="onDocumentoSeleccionado($event)"
+				multiple
+			/>
+		</div>
+
+		@if (documentos().length > 0) {
+			<div class="documentos-lista">
+				<p>Documentos cargados:</p>
+				<ul>
+					@for (documento of documentos(); track documento.name) {
+						<li>
+							<span>{{ documento.name }} ({{ documento.type }}, {{ documento.size }} bytes)</span>
+							<button type="button" (click)="eliminarDocumento(documento.name)">Quitar</button>
+						</li>
+					}
+				</ul>
+			</div>
+		}
+
+		<button type="submit">Guardar perfil</button>
+	</form>
+
+	@if (perfilGuardado(); as perfil) {
+		<section class="resumen" aria-label="Perfil actualizado">
+			<h2>Perfil actualizado</h2>
+			<p><strong>Nombre:</strong> {{ perfil.fullName }}</p>
+			<p><strong>Distrito:</strong> {{ perfil.district }}</p>
+			<p><strong>Fecha de nacimiento:</strong> {{ perfil.birthDate }}</p>
+			<p><strong>Experiencia:</strong> {{ perfil.experience || 'No registrada' }}</p>
+			<p><strong>Habilidades:</strong> {{ perfil.skills.join(', ') }}</p>
+			<p><strong>Documentos:</strong> {{ perfil.documents.length }}</p>
+			<p><strong>Última actualización:</strong> {{ perfil.updatedAt | date: 'short' }}</p>
+		</section>
+	}
+</section>
