@@ -1,0 +1,35 @@
+<section class="registro-ok-shell py-4" aria-labelledby="registro-ok-title">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 col-xl-7">
+                <article class="card registro-ok-card border-0">
+                    <div class="card-body p-4 p-md-5 text-center">
+                        <span class="registro-ok-badge mb-3">Registro finalizado</span>
+                        <h1 id="registro-ok-title" class="h3 fw-semibold mb-2">Felicitaciones, tu cuenta fue creada</h1>
+                        <p class="text-body-secondary mb-4">
+                            Ya terminaste el proceso de registro. Activa tu cuenta para comenzar a postular y luego inicia sesión.
+                        </p>
+
+                        <div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto">
+                            @if (tokenVerificacion()) {
+                                <a
+                                    class="btn btn-lg registro-ok-btn-primary"
+                                    [routerLink]="['/postulante/registro']"
+                                    [queryParams]="{ token: tokenVerificacion() }"
+                                >
+                                    Activar cuenta ahora
+                                </a>
+                            }
+
+                            <a class="btn btn-lg registro-ok-btn-secondary" [routerLink]="['/login']" [queryParams]="{ registered: '1' }">
+                                Ir a iniciar sesion
+                            </a>
+
+                            <a class="btn btn-link registro-ok-link" [routerLink]="['/']">Volver al inicio</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

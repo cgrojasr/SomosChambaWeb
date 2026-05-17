@@ -1,105 +1,108 @@
-.registro-container {
-	max-width: 680px;
-	margin: 2rem auto;
-	padding: 1.5rem;
-	border-radius: 16px;
-	border: 1px solid #d9dee5;
-	background: linear-gradient(140deg, #ffffff 0%, #f6fbff 100%);
+:host {
+	--brand-indigo: #390099;
+	--brand-magenta: #9e0059;
+	--brand-pink: #ff0054;
+	--brand-orange: #ff5400;
+	--brand-gold: #ffbd00;
+	display: block;
 }
 
-h1 {
-	margin: 0;
-	color: #0f172a;
+.registro-shell {
+	background: #fff;
+	min-height: calc(100vh - 96px);
 }
 
-.subtitle {
-	margin: 0.5rem 0 1.5rem;
-	color: #475569;
+.registro-card {
+	border-radius: 0.8rem;
+	background: #fff;
+	box-shadow: 0 0.45rem 1rem rgb(57 0 153 / 8%);
+	border: 1px solid rgb(57 0 153 / 12%);
 }
 
-.registro-form {
-	display: grid;
-	gap: 1rem;
+#registro-title {
+	color: var(--brand-indigo);
 }
 
-.field {
-	display: grid;
-	gap: 0.35rem;
+.registro-header {
+	border-bottom: 1px solid rgb(57 0 153 / 10%);
 }
 
-label {
-	font-weight: 600;
-	color: #1e293b;
+.form-label {
+	color: var(--brand-indigo);
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'] {
-	border: 1px solid #b8c3d1;
-	border-radius: 10px;
-	padding: 0.7rem 0.8rem;
-	font-size: 0.95rem;
+.form-control,
+.form-check-input {
+	border-color: rgb(57 0 153 / 22%);
 }
 
-input:focus {
-	outline: 3px solid #99d4ff;
-	border-color: #2563eb;
+.form-control:focus,
+.form-check-input:focus {
+	border-color: var(--brand-magenta);
+	box-shadow: 0 0 0 0.18rem rgb(158 0 89 / 12%);
 }
 
-.terms {
-	display: flex;
-	align-items: center;
-	gap: 0.6rem;
+.form-check-input:checked {
+	background-color: var(--brand-pink);
+	border-color: var(--brand-pink);
 }
 
-.terms label {
-	font-weight: 500;
+.invalid-feedback {
+	color: var(--brand-pink);
+	font-size: 0.86rem;
 }
 
-button {
+.registro-btn {
+	background: var(--brand-indigo);
 	border: none;
-	border-radius: 10px;
-	padding: 0.85rem 1rem;
-	background: #0369a1;
-	color: #ffffff;
-	font-weight: 600;
-	cursor: pointer;
+	color: #fff;
+	transition: background-color 0.2s ease;
 }
 
-button:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
+.registro-btn:hover:not(:disabled) {
+	background: var(--brand-magenta);
 }
 
-.alert {
-	padding: 0.75rem 0.9rem;
-	border-radius: 10px;
-	margin-bottom: 1rem;
+.registro-btn:disabled {
+	background: rgb(57 0 153 / 45%);
+	opacity: 1;
 }
 
-.alert-success {
-	background: #ecfdf3;
-	border: 1px solid #8ad9aa;
-	color: #166534;
+.alert-reg-ok {
+	background-color: rgb(255 189 0 / 10%);
+	border: 1px solid rgb(255 189 0 / 38%);
+	color: var(--brand-indigo);
 }
 
-.alert-error {
-	background: #fff1f2;
-	border: 1px solid #fca5a5;
-	color: #b91c1c;
+.alert-reg-error {
+	background-color: rgb(255 0 84 / 7%);
+	border: 1px solid rgb(255 0 84 / 30%);
+	color: var(--brand-magenta);
 }
 
-.error {
-	color: #dc2626;
-	font-size: 0.85rem;
+.alert-reg-soft {
+	background-color: rgb(57 0 153 / 4%);
+	border: 1px solid rgb(57 0 153 / 22%);
+	color: var(--brand-indigo);
 }
 
-.verification-help {
-	margin-top: 1rem;
-	color: #0f172a;
+.registro-link {
+	color: var(--brand-magenta);
+	text-decoration: none;
 }
 
-.verification-help a {
-	color: #1d4ed8;
-	font-weight: 600;
+.registro-link:hover {
+	color: var(--brand-orange);
+	text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+	.registro-shell {
+		min-height: 0;
+	}
+
+	.registro-card {
+		border-radius: 0.65rem;
+		box-shadow: 0 0.3rem 0.75rem rgb(57 0 153 / 7%);
+	}
 }

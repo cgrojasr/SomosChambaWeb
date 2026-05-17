@@ -6,6 +6,7 @@ import { Autenticacion } from './seguridad/autenticacion/autenticacion';
 import { EmpleadorPublicacionListado } from './empleador/empleador-publicacion-listado/empleador-publicacion-listado';
 import { EmpleadorPublicacionEmpleo } from './empleador/empleador-publicacion-empleo/empleador-publicacion-empleo';
 import { PostulantePerfil } from './postulante/postulante-perfil/postulante-perfil';
+import { PostulanteRegistroCompletado } from './postulante/postulante-registro-completado/postulante-registro-completado';
 
 export const routes: Routes = [
     {
@@ -22,6 +23,11 @@ export const routes: Routes = [
         path: 'postulante/perfil',
         component: PostulantePerfil,
         title: 'Perfil de Postulante'
+    },
+    {
+        path: 'postulante/registro-completado',
+        component: PostulanteRegistroCompletado,
+        title: 'Registro completado'
     },
     {
         path: 'empleador/registro',

@@ -77,11 +77,15 @@ export class PostulanteRegistro implements OnInit {
       return;
     }
 
-    this.mensajeExito.set('Registro exitoso. Te redirigiremos al inicio de sesión.');
+    this.mensajeExito.set('Registro exitoso. Te redirigiremos a la pantalla de confirmación.');
     this.enlaceVerificacion.set(resultado.verificationLink);
 
+    const token = resultado.verificationLink.split('token=')[1] ?? null;
+
     setTimeout(() => {
-      void this.router.navigate(['/login'], { queryParams: { registered: '1' } });
+      void this.router.navigate(['/postulante/registro-completado'], {
+        queryParams: token ? { token } : undefined
+      });
     }, 1500);
   }
 }

@@ -1,0 +1,76 @@
+:host {
+	--brand-indigo: #390099;
+	--brand-magenta: #9e0059;
+	--brand-pink: #ff0054;
+	--brand-orange: #ff5400;
+	--brand-gold: #ffbd00;
+	display: block;
+}
+
+.registro-ok-shell {
+	background: #fff;
+	min-height: calc(100vh - 96px);
+}
+
+.registro-ok-card {
+	border-radius: 0.8rem;
+	background: #fff;
+	box-shadow: 0 0.45rem 1rem rgb(57 0 153 / 8%);
+	border: 1px solid rgb(57 0 153 / 12%);
+}
+
+.registro-ok-badge {
+	display: inline-block;
+	padding: 0.35rem 0.75rem;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--brand-indigo);
+	background-color: rgb(255 189 0 / 18%);
+	border: 1px solid rgb(255 189 0 / 45%);
+}
+
+#registro-ok-title {
+	color: var(--brand-indigo);
+}
+
+.registro-ok-btn-primary {
+	background: var(--brand-indigo);
+	color: #fff;
+	border: none;
+}
+
+.registro-ok-btn-primary:hover {
+	background: var(--brand-magenta);
+	color: #fff;
+}
+
+.registro-ok-btn-secondary {
+	background: #fff;
+	color: var(--brand-magenta);
+	border: 1px solid rgb(158 0 89 / 38%);
+}
+
+.registro-ok-btn-secondary:hover {
+	background: rgb(158 0 89 / 6%);
+	color: var(--brand-orange);
+	border-color: rgb(255 84 0 / 42%);
+}
+
+.registro-ok-link {
+	color: var(--brand-orange);
+	text-decoration: none;
+}
+
+.registro-ok-link:hover {
+	color: var(--brand-pink);
+	text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+	.registro-ok-shell {
+		min-height: 0;
+	}
+}
