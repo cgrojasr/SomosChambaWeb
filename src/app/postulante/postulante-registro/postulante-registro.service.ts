@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PostulanteRegistroModel } from '../../models/postulante-registro-model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface RegistroExitoso {
   ok: true;
@@ -17,13 +19,27 @@ type RegistroResultado = RegistroExitoso | RegistroFallido;
 export class PostulanteRegistroService {
   private readonly storageKey = 'somoschamba_postulantes';
 
+  /**
+   *
+   */
+  constructor(
+    private http: HttpClient
+  ) {
+  }
+
   registrar(
     payload: Pick<PostulanteRegistroModel, 'nombre' | 'correo' | 'contrasena' | 'distrito' | 'aceptaTerminos'>
   ): RegistroResultado {
+    console.log('Iniciando registro con payload:', payload);
     const registros = this.obtenerRegistros();
     const correoNormalizado = payload.correo.trim().toLowerCase();
+    let correoEnUso = false;
+    this.esCorreoEnUso(correoNormalizado).subscribe(response => {
+      return correoEnUso = response;
+    });
+    console.log('Correo en uso:', correoEnUso);
 
-    if (registros.some((registro) => registro.correo.trim().toLowerCase() === correoNormalizado)) {
+    if (correoEnUso) {
       return {
         ok: false,
         error: 'correo-en-uso'
@@ -32,7 +48,7 @@ export class PostulanteRegistroService {
 
     const tokenVerificacion = this.generarTokenVerificacion();
     const nuevoRegistro: PostulanteRegistroModel = {
-      id: Date.now(),
+      // id: Date.now(),
       nombre: payload.nombre.trim(),
       correo: correoNormalizado,
       contrasena: payload.contrasena,
@@ -43,8 +59,16 @@ export class PostulanteRegistroService {
       tokenVerificacion
     };
 
-    registros.push(nuevoRegistro);
-    this.guardarRegistros(registros);
+    // registros.push(nuevoRegistro);
+    // this.guardarRegistros(registros);
+      this.registroPostulante(nuevoRegistro).subscribe(response => {
+        if (response.id !== undefined || response.id !== null) {
+          nuevoRegistro.id = response.id;
+          console.log('Registro exitoso en backend');
+        } else {
+          console.error('Error al registrar en backend');
+        }
+      });
 
     return {
       ok: true,
@@ -91,5 +115,13 @@ export class PostulanteRegistroService {
 
   private generarTokenVerificacion(): string {
     return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+
+  private esCorreoEnUso(correo: string): Observable<boolean> {
+    return this.http.get<boolean>(`http://localhost:5132/api/postulante/verificar-correo?correo=${encodeURIComponent(correo)}`);
+  }
+
+  private registroPostulante(postulante: PostulanteRegistroModel): Observable<PostulanteRegistroModel> {
+    return this.http.post<PostulanteRegistroModel>('http://localhost:5132/api/postulante/registrar', postulante);
   }
 }

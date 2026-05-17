@@ -71,6 +71,7 @@ export class PostulanteRegistro implements OnInit {
     const resultado = this.registroService.registrar(this.formulario.getRawValue());
 
     if (!resultado.ok) {
+      console.error('Error en registro:', resultado.error);
       this.formulario.controls.correo.setErrors({ correoEnUso: true });
       this.mensajeError.set('El correo ingresado ya está registrado. Usa un correo diferente.');
       return;
