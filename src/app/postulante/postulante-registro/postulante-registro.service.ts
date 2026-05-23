@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PostulanteRegistroModel } from '../../models/postulante-registro-model';
+import { POSTULANTE_REGISTRO_STORAGE_KEY, PostulanteRegistroModel } from '../../models/postulante-registro-model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -17,7 +17,7 @@ type RegistroResultado = RegistroExitoso | RegistroFallido;
 
 @Injectable({ providedIn: 'root' })
 export class PostulanteRegistroService {
-  private readonly storageKey = 'somoschamba_postulantes';
+  private readonly storageKey = POSTULANTE_REGISTRO_STORAGE_KEY;
 
   /**
    *
@@ -30,16 +30,11 @@ export class PostulanteRegistroService {
   registrar(
     payload: Pick<PostulanteRegistroModel, 'nombre' | 'correo' | 'contrasena' | 'distrito' | 'aceptaTerminos'>
   ): RegistroResultado {
-    console.log('Iniciando registro con payload:', payload);
-    const registros = this.obtenerRegistros();
     const correoNormalizado = payload.correo.trim().toLowerCase();
-    let correoEnUso = false;
-    this.esCorreoEnUso(correoNormalizado).subscribe(response => {
-      return correoEnUso = response;
-    });
-    console.log('Correo en uso:', correoEnUso);
+    const registros = this.obtenerRegistros();
+    const correoEnUsoLocal = registros.some((registro) => registro.correo === correoNormalizado);
 
-    if (correoEnUso) {
+    if (correoEnUsoLocal) {
       return {
         ok: false,
         error: 'correo-en-uso'
@@ -59,16 +54,15 @@ export class PostulanteRegistroService {
       tokenVerificacion
     };
 
-    // registros.push(nuevoRegistro);
-    // this.guardarRegistros(registros);
-      this.registroPostulante(nuevoRegistro).subscribe(response => {
-        if (response.id !== undefined || response.id !== null) {
-          nuevoRegistro.id = response.id;
-          console.log('Registro exitoso en backend');
-        } else {
-          console.error('Error al registrar en backend');
-        }
-      });
+    registros.push(nuevoRegistro);
+    this.guardarRegistros(registros);
+
+    this.registroPostulante(nuevoRegistro).subscribe(response => {
+      if (response.id !== undefined && response.id !== null) {
+        nuevoRegistro.id = response.id;
+        this.guardarRegistros(registros);
+      }
+    });
 
     return {
       ok: true,

@@ -1,35 +1,131 @@
-<section class="registro-ok-shell py-4" aria-labelledby="registro-ok-title">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-8 col-xl-7">
-                <article class="card registro-ok-card border-0">
-                    <div class="card-body p-4 p-md-5 text-center">
-                        <span class="registro-ok-badge mb-3">Registro finalizado</span>
-                        <h1 id="registro-ok-title" class="h3 fw-semibold mb-2">Felicitaciones, tu cuenta fue creada</h1>
-                        <p class="text-body-secondary mb-4">
-                            Ya terminaste el proceso de registro. Activa tu cuenta para comenzar a postular y luego inicia sesión.
-                        </p>
+<section class="perfil-container" aria-labelledby="perfil-title">
+    <header>
+        <span class="perfil-badge">Paso 2</span>
+        <h1 id="perfil-title">Completa tu perfil</h1>
+        <p class="subtitle">Agrega tu información personal, habilidades y experiencia para aumentar tus posibilidades de empleo.</p>
+    </header>
 
-                        <div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto">
-                            @if (tokenVerificacion()) {
-                                <a
-                                    class="btn btn-lg registro-ok-btn-primary"
-                                    [routerLink]="['/postulante/registro']"
-                                    [queryParams]="{ token: tokenVerificacion() }"
-                                >
-                                    Activar cuenta ahora
-                                </a>
-                            }
+    @if (mensajeError()) {
+        <div class="alert alert-error" role="alert" aria-live="assertive">{{ mensajeError() }}</div>
+    }
 
-                            <a class="btn btn-lg registro-ok-btn-secondary" [routerLink]="['/login']" [queryParams]="{ registered: '1' }">
-                                Ir a iniciar sesion
-                            </a>
+    @if (mensajeExito()) {
+        <div class="alert alert-success" role="status" aria-live="polite">{{ mensajeExito() }}</div>
+    }
 
-                            <a class="btn btn-link registro-ok-link" [routerLink]="['/']">Volver al inicio</a>
-                        </div>
-                    </div>
-                </article>
-            </div>
+    <form class="perfil-form" [formGroup]="formulario" (ngSubmit)="guardarPerfil()" novalidate>
+        <div class="field">
+            <label for="fullName">Nombre completo *</label>
+            <input id="fullName" type="text" formControlName="fullName" autocomplete="name" />
+            @if (mostrarErrores() && formulario.controls.fullName.hasError('required')) {
+                <small class="error">El nombre completo es obligatorio.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.fullName.hasError('minlength')) {
+                <small class="error">El nombre debe tener al menos 3 caracteres.</small>
+            }
         </div>
-    </div>
+
+        <div class="field">
+            <label for="district">Distrito *</label>
+            <select id="district" formControlName="district">
+                <option value="">Selecciona un distrito</option>
+                @for (distrito of distritosPermitidos; track distrito) {
+                    <option [value]="distrito">{{ distrito }}</option>
+                }
+            </select>
+            @if (mostrarErrores() && formulario.controls.district.hasError('required')) {
+                <small class="error">El distrito es obligatorio.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.district.hasError('distritoInvalido')) {
+                <small class="error">El distrito seleccionado no es válido.</small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="birthDate">Fecha de nacimiento (DD/MM/AAAA) *</label>
+            <input
+                id="birthDate"
+                type="text"
+                formControlName="birthDate"
+                placeholder="31/12/1998"
+                inputmode="numeric"
+            />
+            @if (mostrarErrores() && formulario.controls.birthDate.hasError('required')) {
+                <small class="error">La fecha de nacimiento es obligatoria.</small>
+            }
+            @if (mostrarErrores() && formulario.controls.birthDate.hasError('fechaInvalida')) {
+                <small class="error">La fecha no es válida. Usa DD/MM/AAAA.</small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="experience">Experiencia laboral</label>
+            <textarea
+                id="experience"
+                rows="4"
+                formControlName="experience"
+                placeholder="Describe tu experiencia y logros principales"
+            ></textarea>
+        </div>
+
+        <fieldset class="skills" aria-describedby="skills-help">
+            <legend>Habilidades básicas *</legend>
+            <p id="skills-help">Selecciona al menos una habilidad.</p>
+            <div class="skills-grid">
+                @for (habilidad of habilidadesDisponibles; track habilidad) {
+                    <label class="skill-item">
+                        <input
+                            type="checkbox"
+                            [checked]="estaHabilidadSeleccionada(habilidad)"
+                            (change)="alternarHabilidad(habilidad)"
+                        />
+                        <span>{{ habilidad }}</span>
+                    </label>
+                }
+            </div>
+            @if (mostrarErrores() && habilidadesSeleccionadas().length === 0) {
+                <small class="error">Debes registrar al menos una habilidad básica.</small>
+            }
+        </fieldset>
+
+        <div class="field">
+            <label for="documentos">Documentos opcionales (PDF, JPG, PNG - máximo 5MB)</label>
+            <input
+                id="documentos"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                (change)="onDocumentoSeleccionado($event)"
+                multiple
+            />
+        </div>
+
+        @if (documentos().length > 0) {
+            <div class="documentos-lista">
+                <p>Documentos cargados:</p>
+                <ul>
+                    @for (documento of documentos(); track documento.name) {
+                        <li>
+                            <span>{{ documento.name }} ({{ documento.type }}, {{ documento.size }} bytes)</span>
+                            <button type="button" (click)="eliminarDocumento(documento.name)">Quitar</button>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <button type="submit">Guardar perfil</button>
+    </form>
+
+    @if (perfilGuardado(); as perfil) {
+        <section class="resumen" aria-label="Perfil actualizado">
+            <h2>Perfil actualizado</h2>
+            <p><strong>Nombre:</strong> {{ perfil.fullName }}</p>
+            <p><strong>Distrito:</strong> {{ perfil.district }}</p>
+            <p><strong>Fecha de nacimiento:</strong> {{ perfil.birthDate }}</p>
+            <p><strong>Experiencia:</strong> {{ perfil.experience || 'No registrada' }}</p>
+            <p><strong>Habilidades:</strong> {{ perfil.skills.join(', ') }}</p>
+            <p><strong>Documentos:</strong> {{ perfil.documents.length }}</p>
+            <p><strong>Última actualización:</strong> {{ perfil.updatedAt | date: 'short' }}</p>
+        </section>
+    }
 </section>

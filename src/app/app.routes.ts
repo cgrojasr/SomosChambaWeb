@@ -5,8 +5,8 @@ import { Home } from './home/home';
 import { Autenticacion } from './seguridad/autenticacion/autenticacion';
 import { EmpleadorPublicacionListado } from './empleador/empleador-publicacion-listado/empleador-publicacion-listado';
 import { EmpleadorPublicacionEmpleo } from './empleador/empleador-publicacion-empleo/empleador-publicacion-empleo';
-import { PostulantePerfil } from './postulante/postulante-perfil/postulante-perfil';
 import { PostulanteRegistroCompletado } from './postulante/postulante-registro-completado/postulante-registro-completado';
+import { PostulantePanel } from './postulante/postulante-panel/postulante-panel';
 
 export const routes: Routes = [
     {
@@ -21,13 +21,18 @@ export const routes: Routes = [
     },
     {
         path: 'postulante/perfil',
-        component: PostulantePerfil,
-        title: 'Perfil de Postulante'
+        redirectTo: 'postulante/registro-completado',
+        pathMatch: 'full'
     },
     {
         path: 'postulante/registro-completado',
         component: PostulanteRegistroCompletado,
-        title: 'Registro completado'
+        title: 'Completa tu perfil'
+    },
+    {
+        path: 'postulante/panel',
+        component: PostulantePanel,
+        title: 'Panel principal del postulante'
     },
     {
         path: 'empleador/registro',

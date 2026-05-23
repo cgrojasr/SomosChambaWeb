@@ -1,0 +1,88 @@
+.panel-shell {
+  max-width: 1080px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.panel-hero {
+  padding: 2rem;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #0f766e 100%);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+}
+
+.panel-badge {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.panel-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.panel-card {
+  padding: 1.25rem;
+  border: 1px solid #dbe4f0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+}
+
+.panel-card h2 {
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.panel-card a,
+.panel-card button {
+  display: inline-flex;
+  margin-top: 0.5rem;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel-card a {
+  color: #fff;
+  background: #1d4ed8;
+}
+
+.panel-card button {
+  color: #fff;
+  background: #b91c1c;
+}
+
+.panel-card-emphasis {
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+}
+
+@media (max-width: 640px) {
+  .panel-shell {
+    margin: 1rem;
+    padding: 0;
+  }
+
+  .panel-hero {
+    border-radius: 0;
+  }
+}

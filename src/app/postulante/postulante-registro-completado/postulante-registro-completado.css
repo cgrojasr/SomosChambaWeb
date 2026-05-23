@@ -1,76 +1,148 @@
-:host {
-	--brand-indigo: #390099;
-	--brand-magenta: #9e0059;
-	--brand-pink: #ff0054;
-	--brand-orange: #ff5400;
-	--brand-gold: #ffbd00;
-	display: block;
+.perfil-container {
+	max-width: 760px;
+	margin: 2rem auto;
+	padding: 2rem;
+	border: 1px solid #e2e8f0;
+	border-radius: 16px;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
 }
 
-.registro-ok-shell {
-	background: #fff;
-	min-height: calc(100vh - 96px);
-}
-
-.registro-ok-card {
-	border-radius: 0.8rem;
-	background: #fff;
-	box-shadow: 0 0.45rem 1rem rgb(57 0 153 / 8%);
-	border: 1px solid rgb(57 0 153 / 12%);
-}
-
-.registro-ok-badge {
-	display: inline-block;
+.perfil-badge {
+	display: inline-flex;
+	align-items: center;
 	padding: 0.35rem 0.75rem;
 	border-radius: 999px;
 	font-size: 0.78rem;
 	font-weight: 600;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
-	color: var(--brand-indigo);
-	background-color: rgb(255 189 0 / 18%);
-	border: 1px solid rgb(255 189 0 / 45%);
+	color: #0f766e;
+	background: #ccfbf1;
+	border: 1px solid #99f6e4;
 }
 
-#registro-ok-title {
-	color: var(--brand-indigo);
+h1 {
+	margin: 0.65rem 0 0;
+	color: #0f172a;
 }
 
-.registro-ok-btn-primary {
-	background: var(--brand-indigo);
-	color: #fff;
-	border: none;
+.subtitle {
+	margin-top: 0.5rem;
+	color: #475569;
 }
 
-.registro-ok-btn-primary:hover {
-	background: var(--brand-magenta);
-	color: #fff;
+.perfil-form {
+	display: grid;
+	gap: 1rem;
+	margin-top: 1.5rem;
 }
 
-.registro-ok-btn-secondary {
+.field {
+	display: grid;
+	gap: 0.35rem;
+}
+
+input,
+select,
+textarea,
+button {
+	font: inherit;
+}
+
+input,
+select,
+textarea {
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	padding: 0.65rem 0.75rem;
 	background: #fff;
-	color: var(--brand-magenta);
-	border: 1px solid rgb(158 0 89 / 38%);
 }
 
-.registro-ok-btn-secondary:hover {
-	background: rgb(158 0 89 / 6%);
-	color: var(--brand-orange);
-	border-color: rgb(255 84 0 / 42%);
+button {
+	width: fit-content;
+	border: 0;
+	border-radius: 8px;
+	padding: 0.7rem 1.2rem;
+	font-weight: 600;
+	color: #fff;
+	background: #0369a1;
+	cursor: pointer;
 }
 
-.registro-ok-link {
-	color: var(--brand-orange);
-	text-decoration: none;
+button:hover {
+	background: #075985;
 }
 
-.registro-ok-link:hover {
-	color: var(--brand-pink);
-	text-decoration: underline;
+.skills {
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	padding: 0.75rem 1rem 1rem;
 }
 
-@media (max-width: 576px) {
-	.registro-ok-shell {
-		min-height: 0;
+.skills-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.5rem;
+}
+
+.skill-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.documentos-lista ul {
+	margin: 0.5rem 0 0;
+	padding-left: 1.1rem;
+}
+
+.documentos-lista li {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	margin-bottom: 0.4rem;
+}
+
+.documentos-lista button {
+	background: #b91c1c;
+	padding: 0.35rem 0.7rem;
+}
+
+.documentos-lista button:hover {
+	background: #991b1b;
+}
+
+.alert {
+	margin-top: 1rem;
+	border-radius: 8px;
+	padding: 0.7rem 0.9rem;
+}
+
+.alert-error {
+	background: #fee2e2;
+	color: #7f1d1d;
+	border: 1px solid #fecaca;
+}
+
+.alert-success {
+	background: #dcfce7;
+	color: #14532d;
+	border: 1px solid #bbf7d0;
+}
+
+.error {
+	color: #b91c1c;
+}
+
+.resumen {
+	margin-top: 2rem;
+	border-top: 1px solid #cbd5e1;
+	padding-top: 1rem;
+}
+
+@media (max-width: 640px) {
+	.perfil-container {
+		margin: 1rem;
+		padding: 1.25rem;
 	}
 }

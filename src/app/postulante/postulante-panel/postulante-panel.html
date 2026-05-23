@@ -1,0 +1,38 @@
+<section class="panel-shell" aria-labelledby="panel-title">
+  <header class="panel-hero">
+    <span class="panel-badge">Panel principal</span>
+    <h1 id="panel-title">Bienvenido al área del postulante</h1>
+    <p>
+      @if (sesion(); as usuario) {
+        Hola, {{ usuario.nombre }}. Desde aquí puedes revisar tu perfil, buscar oportunidades y mantener tu cuenta activa.
+      } @else {
+        Tu sesión está disponible, pero no encontramos información activa del usuario.
+      }
+    </p>
+  </header>
+
+  <div class="panel-grid">
+    <article class="panel-card">
+      <h2>Mi perfil</h2>
+      <p>Actualiza tu información personal, habilidades y experiencia para destacar más.</p>
+      <a [routerLink]="['/postulante/registro-completado']">Completar perfil</a>
+    </article>
+
+    <article class="panel-card">
+      <h2>Mi cuenta</h2>
+      @if (sesion(); as usuario) {
+        <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+        <p><strong>Distrito:</strong> {{ usuario.distrito }}</p>
+        <p><strong>Último acceso:</strong> {{ usuario.inicioSesion | date: 'short' }}</p>
+      } @else {
+        <p>No hay una sesión activa para mostrar.</p>
+      }
+    </article>
+
+    <article class="panel-card panel-card-emphasis">
+      <h2>Sesión</h2>
+      <p>Cierra sesión cuando termines para proteger tu cuenta.</p>
+      <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+    </article>
+  </div>
+</section>

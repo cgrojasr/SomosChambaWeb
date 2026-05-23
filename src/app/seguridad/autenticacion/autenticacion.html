@@ -1,1 +1,96 @@
-<p>autenticacion works!</p>
+<section class="auth-shell" aria-labelledby="auth-title">
+	<header class="auth-hero">
+		<span class="auth-badge">Acceso seguro</span>
+		<h1 id="auth-title">Inicia sesión en tu cuenta</h1>
+		<p>Usa tu correo y contraseña para ingresar al panel principal de postulante.</p>
+	</header>
+
+	@if (mensajeError()) {
+		<div class="alert alert-error" role="alert" aria-live="assertive">{{ mensajeError() }}</div>
+	}
+
+	@if (mensajeExito()) {
+		<div class="alert alert-success" role="status" aria-live="polite">{{ mensajeExito() }}</div>
+	}
+
+	@if (mensajeVerificacion()) {
+		<div class="alert alert-warning" role="status" aria-live="polite">
+			{{ mensajeVerificacion() }}
+			@if (enlaceVerificacion(); as enlace) {
+				<div class="alert-actions">
+					<a [routerLink]="['/postulante/registro']" [queryParams]="{ token: tokenVerificacion() }">Abrir enlace de verificación</a>
+					<button type="button" (click)="reenviaVerificacion()">Reenviar verificación</button>
+				</div>
+			}
+		</div>
+	}
+
+	@if (bloqueoHasta()) {
+		<div class="alert alert-warning" role="status" aria-live="polite">
+			Tu acceso está bloqueado temporalmente hasta {{ bloqueoHasta() | date: 'shortTime' }}.
+		</div>
+	}
+
+	<div class="auth-grid">
+		<form class="auth-card" [formGroup]="formulario" (ngSubmit)="iniciarSesion()" novalidate>
+			<h2>Acceder</h2>
+
+			<div class="field">
+				<label for="correo">Correo electrónico *</label>
+				<input id="correo" type="email" formControlName="correo" autocomplete="email" />
+				@if (mostrarErrores() && formulario.controls.correo.hasError('required')) {
+					<small class="error">El correo es obligatorio.</small>
+				}
+				@if (mostrarErrores() && formulario.controls.correo.hasError('email')) {
+					<small class="error">El correo no es válido.</small>
+				}
+			</div>
+
+			<div class="field">
+				<label for="contrasena">Contraseña *</label>
+				<input id="contrasena" type="password" formControlName="contrasena" autocomplete="current-password" />
+				@if (mostrarErrores() && formulario.controls.contrasena.hasError('required')) {
+					<small class="error">La contraseña es obligatoria.</small>
+				}
+				@if (mostrarErrores() && formulario.controls.contrasena.hasError('minlength')) {
+					<small class="error">La contraseña debe tener al menos 8 caracteres.</small>
+				}
+			</div>
+
+			<button type="submit">Ingresar</button>
+
+			<div class="auth-links">
+				<button type="button" class="link-button" (click)="cambiarModo('recuperacion')">Olvidé mi contraseña</button>
+				<a [routerLink]="['/postulante/registro']">Crear una cuenta</a>
+			</div>
+		</form>
+
+		<aside class="auth-card auth-help">
+			<h2>Recuperación de contraseña</h2>
+			@if (modo() === 'recuperacion') {
+				<form [formGroup]="formularioRecuperacion" (ngSubmit)="solicitarRecuperacion()" novalidate>
+					<div class="field">
+						<label for="correoRecuperacion">Correo registrado *</label>
+						<input id="correoRecuperacion" type="email" formControlName="correoRecuperacion" autocomplete="email" />
+						@if (mostrarErroresRecuperacion() && formularioRecuperacion.controls.correoRecuperacion.hasError('required')) {
+							<small class="error">El correo es obligatorio.</small>
+						}
+						@if (mostrarErroresRecuperacion() && formularioRecuperacion.controls.correoRecuperacion.hasError('email')) {
+							<small class="error">El correo no es válido.</small>
+						}
+					</div>
+
+					<button type="submit">Enviar enlace o código</button>
+					<button type="button" class="secondary-button" (click)="cambiarModo('login')">Volver al inicio de sesión</button>
+				</form>
+			} @else {
+				<p>Si no recuerdas tu contraseña, puedes solicitar un enlace o código de recuperación.</p>
+				<button type="button" class="secondary-button" (click)="cambiarModo('recuperacion')">Solicitar recuperación</button>
+			}
+
+			@if (codigoRecuperacion()) {
+				<p class="recovery-note">Código generado: <strong>{{ codigoRecuperacion() }}</strong></p>
+			}
+		</aside>
+	</div>
+</section>

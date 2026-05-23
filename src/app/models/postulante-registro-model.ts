@@ -9,3 +9,5 @@ export interface PostulanteRegistroModel {
   fechaRegistro: string;
   tokenVerificacion?: string;
 }
+
+export const POSTULANTE_REGISTRO_STORAGE_KEY = 'somoschamba_postulantes';

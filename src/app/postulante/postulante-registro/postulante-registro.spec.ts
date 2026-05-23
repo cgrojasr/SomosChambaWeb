@@ -124,7 +124,9 @@ describe('PostulanteRegistro', () => {
 
     expect(component.mensajeExito()).toContain('Registro exitoso');
     expect(component.enlaceVerificacion()).toContain('token=');
-    expect(navigateSpy).toHaveBeenCalledWith(['/login'], { queryParams: { registered: '1' } });
+    expect(navigateSpy).toHaveBeenCalledWith(['/postulante/registro-completado'], {
+      queryParams: { token: component.tokenVerificacion() }
+    });
   });
 
   it('debe verificar cuenta por token', () => {
